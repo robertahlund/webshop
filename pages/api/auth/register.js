@@ -11,7 +11,7 @@ const isUsernameAlreadyTaken = async (username) => {
      END as username_taken`,
     [username]
   );
-  return usernameAlreadyTaken["username_taken"].toLowerCase() === "true"
+  return usernameAlreadyTaken.username_taken.toLowerCase() === "true"
     ? true
     : false;
 };
@@ -40,7 +40,8 @@ export default async (req, res) => {
     if (!validateRegistration(username, password)) {
       res.statusCode = 400;
       res.json({
-        error: "Username or password is badly formatted.",
+        name: "RegistrationValidationError",
+        message: "Username or password is badly formatted.",
       });
       return;
     }
@@ -48,7 +49,8 @@ export default async (req, res) => {
     if (await isUsernameAlreadyTaken(username)) {
       res.statusCode = 400;
       res.json({
-        error: "Please select another username.",
+        name: "UsernameTakenError",
+        message: "Please select another username.",
       });
       return;
     }
@@ -61,6 +63,9 @@ export default async (req, res) => {
     });
   } else {
     res.statusCode = 400;
-    res.send("Unsupported method.");
+    res.json({
+      name: "UnsupportedMethodError",
+      message: "Unsupported method.",
+    });
   }
 };

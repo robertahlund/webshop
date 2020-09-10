@@ -1,8 +1,10 @@
 import db from "../../../lib/db";
-import { v4 as uuidv4 } from "uuid";
-import { addDays } from "date-fns";
-const jwt = require("jsonwebtoken");
-//https://github.com/auth0/node-jsonwebtoken#readme
+
+import {
+  createToken,
+  createRefreshToken,
+  createTokenCookie,
+} from "../../../lib/token";
 
 const loginUser = async (username, password) => {
   return await db.one(
@@ -22,29 +24,6 @@ const loginUser = async (username, password) => {
   );
 };
 
-const createToken = (user) => {
-  return jwt.sign(user, process.env.JWT_SECRET, {
-    expiresIn: "15m",
-  });
-};
-
-const createRefreshToken = async (userId) => {
-  const refreshToken = {
-    token: uuidv4(),
-    expiresAt: addDays(new Date(), 60),
-  };
-  await db.none(
-    `
-    INSERT INTO refresh_token(user_id, refresh_token, expires_at)
-    VALUES($1, $2, $3) 
-    ON CONFLICT (user_id) 
-    DO 
-    UPDATE SET refresh_token = $2, expires_at = $3
-  `,
-    [userId, refreshToken.token, refreshToken.expiresAt]
-  );
-};
-
 export default async (req, res) => {
   if (req.method === "POST") {
     const username = req.body.username.trim();
@@ -53,7 +32,7 @@ export default async (req, res) => {
       const user = await loginUser(username, password);
       const token = createToken(user);
       await createRefreshToken(user.id);
-
+      createTokenCookie(req, res, token);
       res.statusCode = 200;
       res.json(user);
     } catch (error) {
@@ -65,6 +44,9 @@ export default async (req, res) => {
     }
   } else {
     res.statusCode = 400;
-    res.send("Unsupported method.");
+    res.json({
+      name: "UnsupportedMethodError",
+      message: "Unsupported method.",
+    });
   }
 };
