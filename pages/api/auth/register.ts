@@ -1,26 +1,27 @@
 import { validateRegistration } from "../../../lib/validations";
+import db from "../../../lib/db";
+import { NextApiRequest, NextApiResponse } from "next";
+import { IUserNameAlreadyTaken, IUserId } from "../../../types/types";
 
-const db = require("../../../lib/db");
-
-const isUsernameAlreadyTaken = async (username) => {
-  const usernameAlreadyTaken = await db.one(
+const isUsernameAlreadyTaken = async (username: string) => {
+  let usernameAlreadyTaken: IUserNameAlreadyTaken = await db.one(
     `SELECT 
      CASE WHEN EXISTS (SELECT id FROM users WHERE username = $1)
      THEN 'true'
      ELSE 'false'
-     END as username_taken`,
+     END as usernamealreadytaken`,
     [username]
   );
-  return usernameAlreadyTaken.username_taken.toLowerCase() === "true"
+  return usernameAlreadyTaken.usernamealreadytaken.toLowerCase() === "true"
     ? true
     : false;
 };
 
-const saveUser = async (username, password) => {
-  const userId = await db.one(
+const saveUser = async (username: string, password: string) => {
+  let userId: IUserId = await db.one(
     `INSERT INTO users(username, password) 
        VALUES ($1, crypt($2, gen_salt('bf'))) 
-       RETURNING id`,
+       RETURNING id AS userId`,
     [username, password]
   );
   await db.none(
@@ -28,14 +29,14 @@ const saveUser = async (username, password) => {
   INSERT INTO user_roles(roles_id, user_id)
   VALUES(2, $1)
   `,
-    [userId.id]
+    [userId.userid]
   );
 };
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    const username = req.body.username.trim();
-    const password = req.body.password.trim();
+    const username: string = req.body.username.trim();
+    const password: string = req.body.password.trim();
 
     if (!validateRegistration(username, password)) {
       res.statusCode = 400;

@@ -1,0 +1,27 @@
+@import "./config/variables";
+
+.menu {
+  background-color: $primary-color;
+  padding: 40px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .menuList {
+    font-family: "Futura-Light", -apple-system, BlinkMacSystemFont, Segoe UI,
+      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+      sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: $primary-text-color;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+    .menuListItem:not(:first-child) {
+      margin-left: 35px;
+    }
+    .menuListItemActive {
+      color: $secondary-color;
+    }
+  }
+}

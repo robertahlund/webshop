@@ -6,7 +6,7 @@ export default async (req, res) => {
   if (req.method === "GET") {
     try {
       console.log("Verifying token...");
-      await verifyToken(req, res, true);
+      await verifyToken(req, res, false);
       console.log("Token verified.");
       res.statusCode = 200;
       res.json({

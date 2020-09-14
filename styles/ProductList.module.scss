@@ -1,0 +1,9 @@
+@import "./config/variables";
+
+.productsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 80px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+}

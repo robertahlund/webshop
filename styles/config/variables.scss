@@ -1,0 +1,49 @@
+@mixin font($font-family, $font-file, $format, $file-ending) {
+  @font-face {
+    font-family: $font-family;
+    src: url($font-file + $file-ending) format($format);
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+@include font(
+  "Proxima Nova",
+  "../../public/fonts/ProximaNova/ProximaNova-Regular",
+  "opentype",
+  ".otf"
+);
+
+@include font(
+  "Proxima Nova Bold",
+  "../../public/fonts/ProximaNova/Proxima Nova Bold",
+  "opentype",
+  ".otf"
+);
+
+@include font(
+  "Futura-Light",
+  "../../public/fonts/Futura/Futura Book font",
+  "truetype",
+  ".ttf"
+);
+
+@include font(
+  "Futura-Bold",
+  "../../public/fonts/Futura/unicode.futurab",
+  "truetype",
+  ".ttf"
+);
+
+$primary-color: #efeeec;
+$secondary-color: #ff6a00;
+$primary-text-color: #454545;
+$heading-font-family: "Futura-Bold", -apple-system, BlinkMacSystemFont, Segoe UI,
+  Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+  sans-serif;
+$normal-font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, Segoe UI,
+  Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+  sans-serif;
+$bold-font-family: "Proxima Nova Bold", -apple-system, BlinkMacSystemFont,
+  Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+  Helvetica Neue, sans-serif;

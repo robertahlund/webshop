@@ -13,7 +13,7 @@ const loginUser = async (
 ): Promise<IUser> => {
   return await db.one(
     `
-        SELECT users.id AS userId, users.name, users.username, users.email, 
+        SELECT users.id, users.name, users.username, users.email, 
         ARRAY_AGG(roles.role_name
         ORDER BY roles.id ASC) AS roles
         FROM users
@@ -34,8 +34,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const password: string = req.body.password.trim();
     try {
       const user: IUser = await loginUser(username, password);
-      const token = createToken(user);
-      await createRefreshToken(user.userId);
+      console.log(user);
+      const token: string = createToken(user);
+      await createRefreshToken(user.id);
       createTokenCookie(req, res, token);
       res.statusCode = 200;
       res.json(user);
@@ -43,7 +44,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.log(error);
       res.statusCode = 400;
       res.json({
-        error: "Username or password is incorrect.",
+        name: "UsernameOrPasswordError",
+        message: "Username or password is incorrect.",
       });
     }
   } else {

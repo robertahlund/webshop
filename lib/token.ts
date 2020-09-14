@@ -59,13 +59,10 @@ export const verifyToken = async (
       const cookies: { [token: string]: string } = cookie.parse(
         req.headers.cookies as string
       );
-      const {
-        userId,
-        roles,
-      }: { userId: string; roles: IUserRoles[] } = jwt.decode(
+      const { id, roles }: { id: number; roles: IUserRoles[] } = jwt.decode(
         cookies.token
       ) as IUser;
-      const hasValidToken: boolean = await validateRefreshToken(userId);
+      const hasValidToken: boolean = await validateRefreshToken(id);
       if (hasValidToken) {
         if (shouldValidateAdminRole) {
           verifyAdminRole(roles);
@@ -86,7 +83,7 @@ export const verifyToken = async (
   }
 };
 
-const validateRefreshToken = async (userId: string): Promise<boolean> => {
+const validateRefreshToken = async (userId: number): Promise<boolean> => {
   try {
     await db.one(
       `
@@ -112,30 +109,30 @@ const updateTokens = async (req: NextApiRequest, res: NextApiResponse) => {
     req.headers.cookies as string
   );
   const {
-    userId,
+    id,
     name,
     username,
     email,
     roles,
   }: {
-    userId: string;
+    id: number;
     name: string;
     username: string;
     email: string;
     roles: IUserRoles[];
   } = jwt.decode(cookies.token) as IUser;
   const newToken: string = createToken({
-    userId,
+    id,
     name,
     username,
     email,
     roles,
   });
-  await createRefreshToken(userId);
+  await createRefreshToken(id);
   createTokenCookie(req, res, newToken);
 };
 
-export const createRefreshToken = async (userId: string): Promise<void> => {
+export const createRefreshToken = async (userId: number): Promise<void> => {
   const refreshToken: IRefreshToken = {
     token: uuidv4(),
     expiresAt: addDays(new Date(), 60),
