@@ -1,10 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styles from "../../styles/Product.module.scss";
 import { GetStaticProps, GetStaticPaths } from "next";
 import {
   IProductList,
   IProductImages,
   IAvailableSizes,
+  ICartItem,
+  ISelectedSize,
 } from "../../types/types";
 import {
   getProductById,
@@ -14,6 +16,9 @@ import {
 } from "../api/products/products";
 import Head from "next/head";
 import Menu from "../../components/Menu";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../reducers/cartReducer";
+import { RootState } from "../../reducers";
 
 interface ProductProps {
   product: IProductList;
@@ -22,7 +27,33 @@ interface ProductProps {
 }
 
 const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
-  const [chosenSize, setChosenSize] = useState<string>("");
+  const [chosenSize, setChosenSize] = useState<ISelectedSize>({
+    productStockId: 0,
+    size: 0,
+  });
+
+  const dispatch = useDispatch();
+
+  const cart: ICartItem[] = useSelector(
+    (state: RootState) => state.cartReducer
+  );
+
+  useEffect(() => {
+    console.log(cart);
+  });
+
+  const addToCart = (): void => {
+    dispatch(
+      addItem({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        imagePath: images[0].path,
+        size: chosenSize.size,
+        productStockId: chosenSize.productStockId,
+      })
+    );
+  };
 
   return (
     <>
@@ -41,16 +72,22 @@ const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
                 <div
                   key={size.id}
                   className={`${styles.sizeItem} ${
-                    chosenSize === size.size ? styles.sizeItemActive : ""
+                    chosenSize.size === size.size ? styles.sizeItemActive : ""
                   }`}
-                  onClick={() => setChosenSize(size.size)}
+                  onClick={() =>
+                    setChosenSize({ productStockId: size.id, size: size.size })
+                  }
                 >
                   {size.size}
                 </div>
               ))}
             </div>
             <h3 className={styles.mediumHeading}>{product.price}</h3>
-            <button className="button-default" type="button">
+            <button
+              className="button-default"
+              type="button"
+              onClick={addToCart}
+            >
               Add to cart
             </button>
           </div>

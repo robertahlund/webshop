@@ -52,8 +52,27 @@ export interface IProductImages {
 }
 
 export interface IAvailableSizes {
-  size: string;
-  stock: string;
+  size: number;
+  stock: number;
   //product_stock.id
-  id: string;
+  id: number;
+}
+
+export interface ICartItem {
+  productId: string;
+  name: string;
+  price: number;
+  imagePath: string;
+  size: number;
+  productStockId: number;
+}
+
+export interface IAuth {
+  userId: string | null;
+  roles: IUserRoles[];
+}
+
+export interface ISelectedSize {
+  size: number;
+  productStockId: number;
 }
