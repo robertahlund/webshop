@@ -1,0 +1,97 @@
+@import "./config/variables";
+
+.cartContainer {
+  position: fixed;
+  z-index: 2;
+  top: 120px;
+  right: 0;
+  background-color: white;
+  border-top: 3px solid $secondary-color;
+  width: 600px;
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -5px 2px 10px 0px rgba(0, 0, 0, 0.16);
+  &::after {
+    content: "";
+    width: 100%;
+    min-height: 50px;
+    display: block;
+  }
+  .cartItemContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .cartHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+    .cartHeading {
+      font-family: $heading-font-family;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding: 0;
+      margin: 0;
+    }
+    .icon {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+  }
+  .cartBottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 50px;
+    flex: 1 1 auto;
+    flex-direction: column;
+    .totalsContainer {
+      font-family: $bold-font-family;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 90%;
+      .totalsValue {
+        &:last-child {
+          margin-top: 10px;
+          &::after {
+            content: ":-";
+          }
+        }
+      }
+    }
+    .buttonContainer {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 50px;
+      .checkoutButton {
+        &:hover {
+          background-color: white;
+        }
+      }
+    }
+  }
+  .emptyCart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1 1 auto;
+    .bagIcon {
+      stroke: $primary-text-color;
+    }
+    .emptyCartText {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  }
+}

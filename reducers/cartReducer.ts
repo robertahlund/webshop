@@ -12,7 +12,7 @@ const cartSlice = createSlice({
     },
     removeItem(state, action: PayloadAction<ICartItem>) {
       const cartItemIndex = state.findIndex(
-        (cartItem) => cartItem.productId === action.payload.productId
+        (cartItem) => cartItem.guid === action.payload.guid
       );
       if (cartItemIndex > -1) {
         state.splice(cartItemIndex, 1);

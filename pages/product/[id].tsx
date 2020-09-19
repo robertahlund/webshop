@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, Dispatch } from "react";
 import styles from "../../styles/Product.module.scss";
 import { GetStaticProps, GetStaticPaths } from "next";
 import {
@@ -15,10 +15,9 @@ import {
   getProductSizesByProductId,
 } from "../api/products/products";
 import Head from "next/head";
-import Menu from "../../components/Menu";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addItem } from "../../reducers/cartReducer";
-import { RootState } from "../../reducers";
+import { v4 as uuidv4 } from "uuid";
 
 interface ProductProps {
   product: IProductList;
@@ -32,15 +31,7 @@ const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
     size: 0,
   });
 
-  const dispatch = useDispatch();
-
-  const cart: ICartItem[] = useSelector(
-    (state: RootState) => state.cartReducer
-  );
-
-  useEffect(() => {
-    console.log(cart);
-  });
+  const dispatch: Dispatch<any> = useDispatch();
 
   const addToCart = (): void => {
     dispatch(
@@ -51,6 +42,7 @@ const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
         imagePath: images[0].path,
         size: chosenSize.size,
         productStockId: chosenSize.productStockId,
+        guid: uuidv4(),
       })
     );
   };
@@ -60,7 +52,6 @@ const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
       <Head>
         <title>{product.name}</title>
       </Head>
-      <Menu />
       <div className={styles.productContainer}>
         <div className={styles.column}>
           <div className={styles.textContainer}>
@@ -73,10 +64,15 @@ const Product: FC<ProductProps> = ({ product, images, availableSizes }) => {
                   key={size.id}
                   className={`${styles.sizeItem} ${
                     chosenSize.size === size.size ? styles.sizeItemActive : ""
-                  }`}
-                  onClick={() =>
-                    setChosenSize({ productStockId: size.id, size: size.size })
-                  }
+                  } ${size.stock > 0 ? "" : styles.sizeItemUnavailable}`}
+                  onClick={() => {
+                    if (size.stock > 0) {
+                      setChosenSize({
+                        productStockId: size.id,
+                        size: size.size,
+                      });
+                    }
+                  }}
                 >
                   {size.size}
                 </div>

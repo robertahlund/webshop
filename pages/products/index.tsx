@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import Head from "next/head";
-import Menu from "../../components/Menu";
 import { GetStaticProps } from "next";
 import { getProductList } from "../api/products/products";
 import { IProductList } from "../../types/types";
@@ -17,7 +16,6 @@ const Products: FC<ProductsProps> = ({ products }) => {
       <Head>
         <title>Products</title>
       </Head>
-      <Menu />
       <ProductFilter />
       <ProductList products={products} />
     </>

@@ -70,6 +70,17 @@
         background-color: $primary-color;
         color: $secondary-color;
       }
+      .sizeItemUnavailable {
+        border: 1px solid $primary-text-color;
+        background-color: $primary-color;
+        color: $primary-text-color;
+        cursor: not-allowed;
+        &:hover {
+          border: 1px solid $primary-text-color;
+          background-color: $primary-color;
+          color: $primary-text-color;
+        }
+      }
     }
   }
 }

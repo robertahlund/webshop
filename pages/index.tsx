@@ -19,7 +19,6 @@ const Home: FC<HomeProps> = ({ products }) => {
         <title>Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Menu />
       <Hero />
       <HomeProducts products={products} />
     </>

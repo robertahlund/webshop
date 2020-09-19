@@ -65,6 +65,7 @@ export interface ICartItem {
   imagePath: string;
   size: number;
   productStockId: number;
+  guid: string;
 }
 
 export interface IAuth {
@@ -75,4 +76,11 @@ export interface IAuth {
 export interface ISelectedSize {
   size: number;
   productStockId: number;
+}
+
+export interface IconProps {
+  height: string;
+  width: string;
+  customClass?: string;
+  onClickFunction?: () => void;
 }
