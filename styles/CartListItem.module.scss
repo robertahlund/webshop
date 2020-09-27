@@ -1,0 +1,59 @@
+@import "./config/variables";
+
+.cartItemContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 30px;
+  border-bottom: 1px solid $primary-color;
+  width: 100%;
+  background-color: white;
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+    &:nth-child(2) {
+      width: 60%;
+    }
+    &:last-child {
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 79px;
+    }
+    .image {
+      height: 50px;
+    }
+    .cartItemSizeLabel {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .cartItemSize {
+      font-size: 16px;
+      font-family: $bold-font-family;
+    }
+    .cartItemPrice {
+      font-family: $heading-font-family;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding: 0;
+      margin: 0;
+      &::after {
+        content: ":-";
+      }
+    }
+    .cartItemHeading {
+      font-family: $heading-font-family;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding: 0;
+      margin: 0;
+    }
+    .icon {
+    }
+  }
+}

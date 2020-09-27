@@ -1,11 +1,10 @@
-import React, { FC, useState, useEffect, Dispatch } from "react";
+import React, { FC, useState, Dispatch } from "react";
 import styles from "../../styles/Product.module.scss";
 import { GetStaticProps, GetStaticPaths } from "next";
 import {
   IProductList,
   IProductImages,
   IAvailableSizes,
-  ICartItem,
   ISelectedSize,
 } from "../../types/types";
 import {

@@ -1,0 +1,23 @@
+@import "./config/variables";
+
+.footerContainer {
+  background-color: $primary-color;
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px;
+  font-family: $bold-font-family;
+  .column {
+    flex: 0 0 350px;
+    ul li {
+      cursor: pointer;
+      &:not(:first-child) {
+        margin-top: 5px;
+      }
+    }
+    &:last-child {
+      flex: 0 0 auto;
+    }
+  }
+}

@@ -1,34 +1,33 @@
 import React, { FC, useMemo } from "react";
 import styles from "../styles/Cart.module.scss";
 import Cross from "./icons/Cross";
-import { useSelector } from "react-redux";
 import { ICartItem } from "../types/types";
-import { RootState } from "../reducers";
 import CartItem from "./CartItem";
 import Bag from "./icons/Bag";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import useCart from "../hooks/useCart";
 
-interface CartProps {}
+interface CartProps {
+  closeCart: () => void;
+}
 
-const Cart: FC<CartProps> = () => {
-  const cart: ICartItem[] = useSelector(
-    (state: RootState) => state.cartReducer
-  );
-
-  const cartSum: number = useMemo(() => {
-    return cart.reduce(
-      (accumulator: number, currentValue: ICartItem) =>
-        accumulator + Number(currentValue.price),
-      0
-    );
-  }, [cart]);
+const Cart: FC<CartProps> = ({ closeCart }) => {
+  const [cart, cartSum] = useCart();
 
   return (
-    <div className={styles.cartContainer}>
+    <motion.div
+      className={styles.cartContainer}
+      initial={{ x: 600 }}
+      transition={{ duration: 0.3 }}
+      animate={{ x: 0 }}
+      exit={{ x: 600 }}
+    >
       <div className={styles.cartHeader}>
         <Cross
           height="24px"
           width="24px"
-          onClickFunction={() => null}
+          onClickFunction={closeCart}
           customClass={styles.icon}
         />
         <h3 className={styles.cartHeading}>Your cart</h3>
@@ -46,12 +45,14 @@ const Cart: FC<CartProps> = () => {
               <span className={styles.totalsValue}>Total: {cartSum}</span>
             </div>
             <div className={styles.buttonContainer}>
-              <button
-                type="button"
-                className={`button-default ${styles.checkoutButton}`}
-              >
-                Checkout
-              </button>
+              <Link href="/checkout">
+                <button
+                  type="button"
+                  className={`button-default ${styles.checkoutButton}`}
+                >
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         </>
@@ -61,7 +62,7 @@ const Cart: FC<CartProps> = () => {
           <span className={styles.emptyCartText}>Your cart is empty :(</span>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

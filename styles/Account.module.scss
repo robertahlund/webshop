@@ -1,0 +1,62 @@
+@import "./config/variables";
+
+.accountContainer {
+  background-color: $primary-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px;
+  width: 900px;
+  margin: 100px auto 100px auto;
+  .accountHeading {
+    margin: 0;
+    padding: 0;
+    font-family: $heading-font-family;
+    text-transform: uppercase;
+    font-size: 26px;
+    letter-spacing: -1px;
+  }
+  .accountTabContainer {
+    display: flex;
+    font-family: $bold-font-family;
+    margin-top: 40px;
+    .accountTab {
+      color: $primary-text-color;
+      cursor: pointer;
+      &:last-child {
+        margin-left: 50px;
+      }
+    }
+    .accountTabActive {
+      color: $secondary-color;
+    }
+  }
+  .formContainer {
+    width: 90%;
+    margin-top: 50px;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      .column {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        .label {
+          font-family: $bold-font-family;
+          margin-bottom: 5px;
+        }
+        .value {
+          margin-bottom: 20px;
+        }
+      }
+    }
+    .rowCenter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+  }
+}

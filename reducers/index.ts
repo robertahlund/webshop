@@ -4,8 +4,8 @@ import cartReducer from "./cartReducer";
 import authReducer from "./authReducer";
 
 const rootReducer = combineReducers({
-  authReducer,
-  cartReducer,
+  auth: authReducer,
+  cart: cartReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

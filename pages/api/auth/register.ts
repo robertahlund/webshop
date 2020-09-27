@@ -21,7 +21,7 @@ const saveUser = async (username: string, password: string) => {
   let userId: IUserId = await db.one(
     `INSERT INTO users(username, password) 
        VALUES ($1, crypt($2, gen_salt('bf'))) 
-       RETURNING id AS userId`,
+       RETURNING id`,
     [username, password]
   );
   await db.none(
@@ -29,7 +29,7 @@ const saveUser = async (username: string, password: string) => {
   INSERT INTO user_roles(roles_id, user_id)
   VALUES(2, $1)
   `,
-    [userId.userid]
+    [userId.id]
   );
 };
 

@@ -5,7 +5,6 @@ import { IUser, IUserRoles, IRefreshToken } from "../types/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-//const Cookies = require("js-cookie");
 
 export const createTokenCookie = (
   req: NextApiRequest,
@@ -14,6 +13,21 @@ export const createTokenCookie = (
 ) => {
   const authCookie: string = cookie.serialize("token", token, {
     expires: addDays(new Date(), 60),
+    httpOnly: true,
+    sameSite: true,
+    secure: true,
+    path: "/api/",
+  });
+  res.setHeader("Set-Cookie", authCookie);
+};
+
+export const removeTokenCookie = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  token: string
+) => {
+  const authCookie: string = cookie.serialize("token", token, {
+    expires: new Date(),
     httpOnly: true,
     sameSite: true,
     secure: true,
@@ -42,7 +56,7 @@ export const verifyToken = async (
 ): Promise<boolean> => {
   try {
     const cookies: { [token: string]: string } = cookie.parse(
-      req.headers.cookies as string
+      req.headers.cookie as string
     );
     jwt.verify(cookies.token, String(process.env.JWT_SECRET));
     if (shouldValidateAdminRole) {
@@ -53,11 +67,9 @@ export const verifyToken = async (
     }
     return Promise.resolve(true);
   } catch (error) {
-    //Cookies.remove("token", { path: "/api/" });
-    //Cookies.set("token", "", { path: "/api/", expires: 0 });
     if (error.name === "TokenExpiredError") {
       const cookies: { [token: string]: string } = cookie.parse(
-        req.headers.cookies as string
+        req.headers.cookie as string
       );
       const { id, roles }: { id: number; roles: IUserRoles[] } = jwt.decode(
         cookies.token
@@ -70,6 +82,8 @@ export const verifyToken = async (
         await updateTokens(req, res);
         return Promise.resolve(true);
       } else {
+        await deleteRefreshToken(String(id));
+        removeTokenCookie(req, res, cookies.token);
         return Promise.reject({
           name: "RefreshTokenExpired",
           message: "Refresh token has expired, reauthentication needed.",
@@ -104,9 +118,19 @@ const validateRefreshToken = async (userId: number): Promise<boolean> => {
   }
 };
 
+export const deleteRefreshToken = async (userId: string): Promise<void> => {
+  await db.none(
+    `
+      DELETE FROM refresh_token
+      WHERE user_id = $1
+    `,
+    [userId]
+  );
+};
+
 const updateTokens = async (req: NextApiRequest, res: NextApiResponse) => {
   const cookies: { [token: string]: string } = cookie.parse(
-    req.headers.cookies as string
+    req.headers.cookie as string
   );
   const {
     id,

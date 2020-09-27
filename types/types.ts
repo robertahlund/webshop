@@ -18,7 +18,7 @@ export interface IUserNameAlreadyTaken {
 }
 
 export interface IUserId {
-  userid: string;
+  id: string;
 }
 
 export interface IProduct {
@@ -71,6 +71,7 @@ export interface ICartItem {
 export interface IAuth {
   userId: string | null;
   roles: IUserRoles[];
+  initialLoad?: boolean;
 }
 
 export interface ISelectedSize {
@@ -84,3 +85,65 @@ export interface IconProps {
   customClass?: string;
   onClickFunction?: () => void;
 }
+
+export interface LoginForm {
+  username: FormValue;
+  password: FormValue;
+}
+
+export interface RegistrationForm extends LoginForm {}
+
+export interface FormValue {
+  value: string;
+  isValid: boolean;
+  validationMessage: string;
+}
+
+export interface IUserAccountQuery {
+  id: number;
+  name: string;
+  address: string;
+  zip_code: string;
+  email: string;
+  phone_number: string;
+  username: string;
+  city: string;
+  customer_number: number;
+}
+
+export interface IUserAccount {
+  id: number;
+  name: string;
+  address: string;
+  zipCode: string;
+  email: string;
+  phoneNumber: string;
+  username: string;
+  city: string;
+  customerNumber: number;
+}
+
+export interface IUserAccountForm {
+  id: number;
+  name: FormValue;
+  address: FormValue;
+  zipCode: FormValue;
+  email: FormValue;
+  phoneNumber: FormValue;
+  username: string;
+  city: FormValue;
+  customerNumber: number;
+  newPassword: FormValue;
+}
+
+export interface IUpdateUserAccount {
+  name: string;
+  address: string;
+  zipCode: string;
+  email: string;
+  phoneNumber: string;
+  city: string;
+  newPassword: string;
+}
+
+export type MyAccountTab = "My information" | "My orders";
