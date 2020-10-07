@@ -7,7 +7,7 @@ import { LoginForm } from "../../types/types";
 import Input from "../../components/common/Input";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login } from "../../reducers/authReducer";
+import { login } from "../../slices/authSlice";
 
 const intialState: LoginForm = {
   username: {

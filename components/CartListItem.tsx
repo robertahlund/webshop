@@ -3,7 +3,7 @@ import styles from "../styles/CartListItem.module.scss";
 import Cross from "./icons/Cross";
 import { ICartItem } from "../types/types";
 import { useDispatch } from "react-redux";
-import { removeItem } from "../reducers/cartReducer";
+import { removeItem } from "../slices/cartSlice";
 import Link from "next/link";
 
 interface CartListItemProps {

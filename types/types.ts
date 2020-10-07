@@ -146,4 +146,61 @@ export interface IUpdateUserAccount {
   newPassword: string;
 }
 
-export type MyAccountTab = "My information" | "My orders";
+export enum SelectedAccountTab {
+  MyInformation = "My information",
+  MyOrders = "My orders",
+}
+
+export interface ICreateOrderRow {
+  productId: string;
+  quantity: number;
+  amount: number;
+  size: number;
+  productStockId: number;
+}
+
+export interface IOrderId {
+  id: number;
+}
+
+export interface IOrderListItem {
+  id: number;
+  quantity: number;
+  amount: number;
+  productName: string;
+  productImagePath: string;
+  size: number;
+}
+
+export interface IOrderListItemQuery {
+  id: number;
+  quantity: number;
+  amount: number;
+  name: string;
+  path: string;
+  size: number;
+}
+
+export interface IOrderItem {
+  id: number;
+  orderNumber: number;
+  orderStatusLabel: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  phoneNumber: string;
+  orderDate: string;
+  orderTotal: number;
+}
+
+export interface IOrderItemQuery {
+  id: number;
+  order_number: number;
+  label: string;
+  address: string;
+  city: string;
+  zip_code: string;
+  phone_number: string;
+  order_date: string;
+  order_total: number;
+}

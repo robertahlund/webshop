@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AppThunk } from "./../store/store";
+import { AppThunk } from "../store/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAuth } from "../types/types";
 

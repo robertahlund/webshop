@@ -1,1 +1,8 @@
 @import "./config/variables";
+
+.checkoutContainer {
+  background-color: $primary-color;
+  width: 1000px;
+  margin: 100px auto 100px;
+  padding: 80px;
+}

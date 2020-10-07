@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 import styles from "../styles/Account.module.scss";
 import {
   IUpdateUserAccount,
@@ -7,10 +8,6 @@ import {
   IUserAccountForm,
 } from "../types/types";
 import Input from "./common/Input";
-
-interface AccountInformationProps {
-  userData: IUserAccount;
-}
 
 const initialUserAccountForm: IUserAccountForm = {
   id: 0,
@@ -53,10 +50,40 @@ const initialUserAccountForm: IUserAccountForm = {
   },
 };
 
-const AccountInformation: FC<AccountInformationProps> = ({ userData }) => {
+export const initialUserData: IUserAccount = {
+  id: 0,
+  name: "",
+  address: "",
+  zipCode: "",
+  email: "",
+  phoneNumber: "",
+  username: "",
+  city: "",
+  customerNumber: 0,
+};
+
+const AccountInformation: FC = () => {
   const [userAccountForm, setUserAccountForm] = useState<IUserAccountForm>(
     initialUserAccountForm
   );
+  const [userData, setUserData] = useState<IUserAccount>(initialUserData);
+  const [isAuthenticated, initialLoad] = useAuth();
+
+  const getUserInformation = async (): Promise<void> => {
+    try {
+      const response: AxiosResponse = await axios.get("/api/account");
+      const userInformation: IUserAccount = response.data;
+      setUserData(userInformation);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && initialLoad) {
+      getUserInformation();
+    }
+  }, [isAuthenticated, initialLoad]);
 
   useEffect(() => {
     setUserAccountForm({

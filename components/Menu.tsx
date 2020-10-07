@@ -4,10 +4,10 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { useRouter, NextRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../slices";
 import { IAuth } from "../types/types";
 import axios from "axios";
-import { logout } from "../reducers/authReducer";
+import { logout } from "../slices/authSlice";
 
 interface MenuProps {
   toggleCart: () => void;

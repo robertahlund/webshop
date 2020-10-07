@@ -14,24 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         req.headers.cookie as string
       );
       const { id }: { id: number } = jwt.decode(cookies.token) as IUser;
-      const userAccountInfo: IUserAccountQuery = await db.one(
-        `
-      SELECT id, name, address, zip_code, email, phone_number, username, city, customer_number
-      FROM users
-      WHERE id = $1`,
-        [id]
-      );
-      const userAccountData: IUserAccount = {
-        id: userAccountInfo.id,
-        name: userAccountInfo.name,
-        address: userAccountInfo.address,
-        zipCode: userAccountInfo.zip_code,
-        email: userAccountInfo.email,
-        phoneNumber: userAccountInfo.phone_number,
-        username: userAccountInfo.username,
-        city: userAccountInfo.city,
-        customerNumber: userAccountInfo.customer_number,
-      };
+      const userAccountData: IUserAccount = await getUserInformation(id);
       res.statusCode = 200;
       res.send(userAccountData);
     } catch (error) {
@@ -81,6 +64,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.json({
       name: "UnsupportedMethodError",
       message: "Unsupported method.",
+    });
+  }
+};
+
+export const getUserInformation = async (id: number): Promise<IUserAccount> => {
+  try {
+    const userAccountInfo: IUserAccountQuery = await db.one(
+      `
+    SELECT id, name, address, zip_code, email, phone_number, username, city, customer_number
+    FROM users
+    WHERE id = $1`,
+      [id]
+    );
+    return Promise.resolve({
+      id: userAccountInfo.id,
+      name: userAccountInfo.name,
+      address: userAccountInfo.address,
+      zipCode: userAccountInfo.zip_code,
+      email: userAccountInfo.email,
+      phoneNumber: userAccountInfo.phone_number,
+      username: userAccountInfo.username,
+      city: userAccountInfo.city,
+      customerNumber: userAccountInfo.customer_number,
+    });
+  } catch (error) {
+    return Promise.reject({
+      name: "GetUserInformationError",
+      message: "Error fetching user information.",
     });
   }
 };

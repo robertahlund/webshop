@@ -1,10 +1,6 @@
 @import "./config/variables";
 
 .cartListContainer {
-  background-color: $primary-color;
-  width: 1000px;
-  margin: 100px auto 100px;
-  padding: 80px;
   .cartListItemContainer {
     margin-top: 40px;
   }

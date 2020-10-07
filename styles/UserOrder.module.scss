@@ -1,0 +1,46 @@
+@import "./config/variables";
+
+.userOrderContainer {
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  .column {
+    width: 33%;
+    max-width: 33%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    &:last-child {
+      align-items: flex-end;
+      .columnItem {
+        align-items: flex-end;
+      }
+    }
+    .columnItem {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    .orderLabel {
+    }
+    .orderValue {
+      margin-top: 5px;
+      font-family: $bold-font-family;
+    }
+    .orderPrice {
+      margin-top: 5px;
+      font-family: $bold-font-family;
+      &::after {
+        content: ":-";
+      }
+    }
+  }
+  &:first-child {
+    margin-top: 0;
+  }
+}

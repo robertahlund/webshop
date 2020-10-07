@@ -15,7 +15,7 @@ import {
 } from "../api/products/products";
 import Head from "next/head";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../reducers/cartReducer";
+import { addItem } from "../../slices/cartSlice";
 import { v4 as uuidv4 } from "uuid";
 
 interface ProductProps {

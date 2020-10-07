@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../slices";
 import { ICartItem } from "../types/types";
 
 const useCart = (): [ICartItem[], string] => {

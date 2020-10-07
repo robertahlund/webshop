@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { validateUserSession } from "../reducers/authReducer";
+import { validateUserSession } from "../slices/authSlice";
 
 interface LayoutProps {
   children: ReactNode[];

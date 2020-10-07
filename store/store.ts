@@ -1,6 +1,6 @@
-import { RootState } from "./../reducers/index";
+import { RootState } from "../slices/index";
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import rootReducer from "../reducers/index";
+import rootReducer from "../slices/index";
 
 const store = configureStore({
   reducer: rootReducer,

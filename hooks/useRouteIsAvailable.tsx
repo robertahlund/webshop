@@ -1,7 +1,7 @@
 import { NextRouter, useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../slices";
 import { IAuth } from "../types/types";
 
 const useRouteIsAvailable = (isOnlyAdminRoute?: boolean): boolean => {

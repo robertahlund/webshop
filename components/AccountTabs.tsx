@@ -1,28 +1,32 @@
 import React, { Dispatch, FC } from "react";
 import styles from "../styles/Account.module.scss";
-import { MyAccountTab } from "../types/types";
+import { SelectedAccountTab } from "../types/types";
 
 interface AccountTabsProps {
-  activeTab: MyAccountTab;
-  setActiveTab: Dispatch<React.SetStateAction<MyAccountTab>>;
+  activeTab: SelectedAccountTab;
+  setActiveTab: Dispatch<React.SetStateAction<SelectedAccountTab>>;
 }
 
-const AccountsTabs: FC<AccountTabsProps> = ({ activeTab, setActiveTab }) => {
+const AccountTabs: FC<AccountTabsProps> = ({ activeTab, setActiveTab }) => {
   return (
     <div className={styles.accountTabContainer}>
       <span
         className={`${styles.accountTab} ${
-          activeTab === "My information" ? styles.accountTabActive : ""
+          activeTab === SelectedAccountTab.MyInformation
+            ? styles.accountTabActive
+            : ""
         }`}
-        onClick={() => setActiveTab("My information")}
+        onClick={() => setActiveTab(SelectedAccountTab.MyInformation)}
       >
         My information
       </span>
       <span
         className={`${styles.accountTab} ${
-          activeTab === "My orders" ? styles.accountTabActive : ""
+          activeTab === SelectedAccountTab.MyOrders
+            ? styles.accountTabActive
+            : ""
         }`}
-        onClick={() => setActiveTab("My orders")}
+        onClick={() => setActiveTab(SelectedAccountTab.MyOrders)}
       >
         My orders
       </span>
@@ -30,4 +34,4 @@ const AccountsTabs: FC<AccountTabsProps> = ({ activeTab, setActiveTab }) => {
   );
 };
 
-export default AccountsTabs;
+export default AccountTabs;

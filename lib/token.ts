@@ -1,3 +1,4 @@
+import { extractAuthInfoFromCookie, parseAuthCookie } from "./authCookie";
 import db from "./db";
 import { v4 as uuidv4 } from "uuid";
 import { addDays } from "date-fns";
@@ -38,7 +39,7 @@ export const removeTokenCookie = (
 
 export const createToken = (user: IUser): string => {
   return jwt.sign(user, String(process.env.JWT_SECRET), {
-    expiresIn: "15min",
+    expiresIn: "2s",
   });
 };
 
@@ -55,25 +56,15 @@ export const verifyToken = async (
   shouldValidateAdminRole: boolean
 ): Promise<boolean> => {
   try {
-    const cookies: { [token: string]: string } = cookie.parse(
-      req.headers.cookie as string
-    );
-    jwt.verify(cookies.token, String(process.env.JWT_SECRET));
+    jwt.verify(parseAuthCookie(req), String(process.env.JWT_SECRET));
+    const { roles } = extractAuthInfoFromCookie(req);
     if (shouldValidateAdminRole) {
-      const { roles }: { roles: IUserRoles[] } = jwt.decode(
-        cookies.token
-      ) as IUser;
       verifyAdminRole(roles);
     }
     return Promise.resolve(true);
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      const cookies: { [token: string]: string } = cookie.parse(
-        req.headers.cookie as string
-      );
-      const { id, roles }: { id: number; roles: IUserRoles[] } = jwt.decode(
-        cookies.token
-      ) as IUser;
+      const { id, roles } = extractAuthInfoFromCookie(req);
       const hasValidToken: boolean = await validateRefreshToken(id);
       if (hasValidToken) {
         if (shouldValidateAdminRole) {
@@ -83,7 +74,7 @@ export const verifyToken = async (
         return Promise.resolve(true);
       } else {
         await deleteRefreshToken(String(id));
-        removeTokenCookie(req, res, cookies.token);
+        removeTokenCookie(req, res, parseAuthCookie(req));
         return Promise.reject({
           name: "RefreshTokenExpired",
           message: "Refresh token has expired, reauthentication needed.",
@@ -129,22 +120,7 @@ export const deleteRefreshToken = async (userId: string): Promise<void> => {
 };
 
 const updateTokens = async (req: NextApiRequest, res: NextApiResponse) => {
-  const cookies: { [token: string]: string } = cookie.parse(
-    req.headers.cookie as string
-  );
-  const {
-    id,
-    name,
-    username,
-    email,
-    roles,
-  }: {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-    roles: IUserRoles[];
-  } = jwt.decode(cookies.token) as IUser;
+  const { id, name, username, email, roles } = extractAuthInfoFromCookie(req);
   const newToken: string = createToken({
     id,
     name,
