@@ -204,3 +204,23 @@ export interface IOrderItemQuery {
   order_date: string;
   order_total: number;
 }
+
+export interface IProductOrder {
+  id: string;
+  quantity: number;
+  amount: string;
+  name: string;
+  path: string;
+  size: number;
+  productId: string;
+}
+
+export interface IProductOrderQuery {
+  id: string;
+  quantity: number;
+  amount: string;
+  name: string;
+  path: string;
+  size: number;
+  product_id: string;
+}

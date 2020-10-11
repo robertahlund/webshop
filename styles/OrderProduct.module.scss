@@ -1,0 +1,57 @@
+@import "./config/variables";
+
+.orderProductContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 2px solid $primary-color;
+  padding: 20px 0;
+  &:first-child {
+    margin-top: 20px;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+    &:nth-child(2) {
+      width: 60%;
+    }
+    &:last-child {
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .image {
+      height: 50px;
+    }
+    .orderProductSizeLabel {
+      font-size: 14px;
+      margin: 10px 0;
+    }
+    .orderProductSize {
+      font-size: 14px;
+      font-family: $bold-font-family;
+    }
+    .orderProductPrice {
+      font-family: $heading-font-family;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding: 0;
+      margin: 0;
+      &::after {
+        content: ":-";
+      }
+    }
+    .orderProductHeading {
+      font-family: $heading-font-family;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
