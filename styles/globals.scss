@@ -49,3 +49,14 @@ li {
   fill: $primary-text-color;
   cursor: pointer;
 }
+
+.icon-stroke {
+  stroke: $primary-text-color;
+  fill: none;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}

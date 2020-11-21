@@ -1,0 +1,14 @@
+@import "./config/variables";
+
+.emptyUserOrderListContainer {
+  width: 90%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .emptyMessage {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+}
